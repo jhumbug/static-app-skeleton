@@ -5,8 +5,6 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'konami',
-    'moment'
 ], function ($, _, Backbone) {
     'use strict';
 
@@ -17,23 +15,15 @@ define([
             var $window = $(window),
                 $document = $(document);
 
-            _.bindAll(this, 'onKonami');
+            this.$el.append('<h1>App</h1>');
 
             this.Environment = this.setEnvironment();
-
-            this.pageTitleTimeout = null;
-            this.pageOriginalTitle = $('title').text();
-            this.pageTitleMessages = ['Crying Digital Tears', 'It\'s Cold Without You', 'Hot Puppet Action', 'Still Here, Waiting', 'Take a Fun-cation'];
 
             //set resize vars to track when resizing is done
             //this is so resize doesn't fire multiple times while resizing
             this.resizeTime = new Date(1, 1, 2000, 12, 0, 0);
             this.resizeTimeout = false;
             this.resizeDelta = 300;
-
-
-            var now = moment().format('ddd, MMM. D YYYY');
-            this.$('#todays-date').text(now);
 
 
             $window.scroll(function() {
@@ -43,18 +33,7 @@ define([
             $window.resize(function() {
                 vent.trigger('window:resize', new Date());
             });
-
-            this.konamiTimeout = null;
-            $window.konami({
-                cheat: this.onKonami
-            });
-
          
-            //prevents default behaviour of dropping files on the page
-            $document.bind('drop dragover', function (e) {
-                e.preventDefault();
-            });
-
             vent.on('window:resize', this.onWindowResize, this);
             vent.on('page:focusChange', this.titleAlert, this);
             vent.on('page:resize', this.render, this);
@@ -67,23 +46,6 @@ define([
         render: function () {
             return this;
         },
-
-        onKonami: function () {
-            var self = this,
-                shift = function () {
-                    self.$el.toggleClass('oooweeeeoooo');
-                };
-
-            this.$el.toggleClass('konami');
-
-            if (this.$el.hasClass('konami')) {
-                this.konamiTimeout = window.setInterval(shift, 1000);
-            } else {
-                window.clearInterval(this.konamiTimeout);
-                this.$el.removeClass('konami oooweeeeoooo');
-            }
-        },
-
 
 
         onWindowResize: function (date) {

@@ -1,10 +1,6 @@
 /*global define*/
 'use strict';
 
-define('jquery', [], function () {
-    return jQuery;
-});
-
 require.config({
     shim: {
         underscore: {
@@ -19,6 +15,7 @@ require.config({
         }
     },
     paths: {
+        'jquery': '../bower_components/jquery/dist/jquery',
         'backbone': '../bower_components/backbone/backbone',
         'underscore': '../bower_components/underscore/underscore',
         'konami': '../bower_components/konami-code/src/jquery.konami',
@@ -27,10 +24,11 @@ require.config({
 });
 
 require([
+    'jquery',
     'underscore',
     'backbone',
     'views/app'
-], function (_, Backbone, AppView) {
+], function ($, _, Backbone, AppView) {
     window.vent = _.extend({}, Backbone.Events);
 
     window.App = new AppView();

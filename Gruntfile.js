@@ -1,6 +1,6 @@
 'use strict';
-var LIVERELOAD_PORT = 35729;
-var SERVER_PORT = 9000;
+var LIVERELOAD_PORT = 35730;
+var SERVER_PORT = 9001;
 var lrSnippet = require('connect-livereload')({port: LIVERELOAD_PORT});
 var mountFolder = function (connect, dir) {
     return connect.static(require('path').resolve(dir));
@@ -18,6 +18,7 @@ module.exports = function (grunt) {
         app: 'app',
         dist: 'dist',
         deployDir: '.deploy',
+        bower: grunt.file.readJSON('./.bowerrc'),
         domain: 'www.adultswim.com',
         stagingDomain: 'www.staging.adultswim.com',
         devDomain: 'www.dev.adultswim.com',
@@ -107,7 +108,7 @@ module.exports = function (grunt) {
             options: {
                 port: SERVER_PORT,
                 // change this to '0.0.0.0' to access the server from outside
-                hostname: '127.0.0.0'
+                hostname: 'localhost'
             },
             proxies: [
                 // {
@@ -265,16 +266,30 @@ module.exports = function (grunt) {
         },
         copy: {
             dist: {
-                files: [{
-                    expand: true,
-                    dot: true,
-                    cwd: '<%= appConfig.app %>',
-                    dest: '<%= appConfig.dist %>',
-                    src: [
-                        'images/{,*/}*.{webp,gif}',
-                        'styles/fonts/{,*/}*.*',
-                    ]
-                }]
+                files: [
+                    {
+                        expand: true,
+                        dot: true,
+                        cwd: '<%= appConfig.app %>',
+                        dest: '<%= appConfig.dist %>',
+                        src: [
+                            'images/{,*/}*.{webp,gif}',
+                            'styles/fonts/{,*/}*.*',
+                        ]
+                    },
+                    //copies special scripts from app to dist
+                    {
+                        expand: true,
+                        dot: true,
+                        cwd: '',
+                        dest: '<%= appConfig.dist %>/app/bower_components',
+                        flatten: true,
+                        src: [
+                            '<%= appConfig.bower.directory %>/requirejs/require.js',
+                            '<%= appConfig.bower.directory %>/modernizr/modernizr.js'
+                        ]
+                    }
+                ]
             },
             deploy: {
                 files: [{
