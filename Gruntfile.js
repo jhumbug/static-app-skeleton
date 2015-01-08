@@ -199,8 +199,7 @@ module.exports = function (grunt) {
                     baseUrl: '<%= appConfig.app %>/scripts',
                     optimize: 'none',
                     paths: {
-                        'templates': '../../.tmp/scripts/templates',
-                        'jquery': 'http://z.cdn.turner.com/adultswim/tools/lib/jquery/jquery-1.11.0.min'
+                        'templates': '../../.tmp/scripts/templates'
                     },
                     preserveLicenseComments: false,
                     useStrict: true,
@@ -303,7 +302,7 @@ module.exports = function (grunt) {
         },
         bower: {
             all: {
-                rjsConfig: '<%= appConfig.app %>/scripts/main.js'
+                rjsConfig: '<%= appConfig.app %>/scripts/appname.js'
             }
         },
         jst: {
