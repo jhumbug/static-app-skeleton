@@ -15,9 +15,9 @@ module.exports = function (grunt) {
 
     // configurable paths
     var appConfig = {
-        app: 'app',
-        dist: 'dist',
-        deployDir: '.deploy',
+        appDirectory: 'app',
+        distDirectory: 'dist',
+        deployDirectory: '.deploy',
         bower: grunt.file.readJSON('./.bowerrc'),
         domain: 'www.adultswim.com',
         stagingDomain: 'www.staging.adultswim.com',
@@ -54,12 +54,12 @@ module.exports = function (grunt) {
                     livereload: LIVERELOAD_PORT
                 },
                 files: [
-                    '<%= appConfig.app %>/scripts/{,**/}*.ejs',
-                    '<%= appConfig.app %>/*.html',
-                    '<%= appConfig.app %>/styles/{,**/}*.css',
-                    '<%= appConfig.app %>/styles/{,**/}*.less',
-                    '<%= appConfig.app %>/scripts/{,**/}*.js',
-                    '<%= appConfig.app %>/images/{,**/}*.{png,jpg,jpeg,gif,webp}'
+                    '<%= appConfig.appDirectory %>/scripts/{,**/}*.ejs',
+                    '<%= appConfig.appDirectory %>/*.html',
+                    '<%= appConfig.appDirectory %>/styles/{,**/}*.css',
+                    '<%= appConfig.appDirectory %>/styles/{,**/}*.less',
+                    '<%= appConfig.appDirectory %>/scripts/{,**/}*.js',
+                    '<%= appConfig.appDirectory %>/images/{,**/}*.{png,jpg,jpeg,gif,webp}'
                 ],
                 tasks: ['jst', 'less:app', 'autoprefixer:app']
             },
@@ -67,7 +67,7 @@ module.exports = function (grunt) {
                 options: {
                     livereload: false
                 },
-                files: ['<%= appConfig.app %>/index.html'],
+                files: ['<%= appConfig.appDirectory %>/index.html'],
                 tasks: ['stage:index']
             }
         },
@@ -75,17 +75,17 @@ module.exports = function (grunt) {
         less: {
             options: {
                 paths: [
-                    '<%= appConfig.app %>/styles'
+                    '<%= appConfig.appDirectory %>/styles'
                 ]
             },
             app: {
                 files: {
-                    '.tmp/styles/app.css': '<%= appConfig.app %>/styles/app.less'
+                    '.tmp/styles/app.css': '<%= appConfig.appDirectory %>/styles/app.less'
                 }
             },
             dist: {
                 files: {
-                    '<%= appConfig.dist %>/tools/css/app.css': '<%= appConfig.app %>/styles/app.less'
+                    '<%= appConfig.distDirectory %>/tools/css/app.css': '<%= appConfig.appDirectory %>/styles/app.less'
                 }
             }
         },
@@ -98,9 +98,9 @@ module.exports = function (grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: '<%= appConfig.dist %>/tools/js',
+                    cwd: '<%= appConfig.distDirectory %>/tools/js',
                     src: 'app.js',
-                    dest: '<%= appConfig.dist %>/tools/js'
+                    dest: '<%= appConfig.distDirectory %>/tools/js'
                 }]
             }
         },
@@ -123,7 +123,7 @@ module.exports = function (grunt) {
                         var middlewares = [
                             lrSnippet,
                             mountFolder(connect, '.tmp'),
-                            mountFolder(connect, appConfig.app)
+                            mountFolder(connect, appConfig.appDirectory)
                         ];
 
                         if (!Array.isArray(options.base)) {
@@ -144,7 +144,7 @@ module.exports = function (grunt) {
                 options: {
                     middleware: function (connect, options) {
                         var middlewares = [
-                            mountFolder(connect, appConfig.dist)
+                            mountFolder(connect, appConfig.distDirectory)
                         ];
 
                         if (!Array.isArray(options.base)) {
@@ -177,7 +177,7 @@ module.exports = function (grunt) {
             }
         },
         clean: {
-            dist: ['.tmp', '<%= appConfig.dist %>/*'],
+            dist: ['.tmp', '<%= appConfig.distDirectory %>/*'],
             server: '.tmp',
             deploy: '.deploy'
         },
@@ -188,19 +188,18 @@ module.exports = function (grunt) {
             },
             all: [
                 'Gruntfile.js',
-                '<%= appConfig.app %>/scripts/{,*/}*.js',
-                '!<%= appConfig.app %>/scripts/vendor/*'
+                '<%= appConfig.appDirectory %>/scripts/{,*/}*.js',
+                '!<%= appConfig.appDirectory %>/scripts/vendor/*'
             ]
         },
         requirejs: {
             dist: {
                 // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
                 options: {
-                    baseUrl: '<%= appConfig.app %>/scripts',
+                    baseUrl: '<%= appConfig.appDirectory %>/scripts',
                     optimize: 'none',
                     paths: {
-                        'templates': '../../.tmp/scripts/templates',
-                        'jquery': 'http://z.cdn.turner.com/adultswim/tools/lib/jquery/jquery-1.11.0.min'
+                        'templates': '../../.tmp/scripts/templates'
                     },
                     preserveLicenseComments: false,
                     useStrict: true,
@@ -210,35 +209,39 @@ module.exports = function (grunt) {
             }
         },
         useminPrepare: {
-            html: '<%= appConfig.app %>/index.html',
+            html: '<%= appConfig.appDirectory %>/index.html',
             options: {
-                dest: '<%= appConfig.dist %>'
+                dest: '<%= appConfig.distDirectory %>'
             }
         },
         usemin: {
-            html: ['<%= appConfig.dist %>/{,*/}*.html'],
-            css: ['<%= appConfig.dist %>/styles/{,*/}*.css'],
+            html: ['<%= appConfig.distDirectory %>/{,*/}*.html'],
+            css: ['<%= appConfig.distDirectory %>/styles/{,*/}*.css'],
             options: {
-                dirs: ['<%= appConfig.dist %>'],
-
+                dirs: ['<%= appConfig.distDirectory %>'],
+                blockReplacements: {
+                  // js: function (block) {
+                  //     return '<script src="' + block + '"></script>';
+                  // }
+                }
             }
         },
         imagemin: {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: '<%= appConfig.app %>/images',
+                    cwd: '<%= appConfig.appDirectory %>/images',
                     src: '{,*/}*.{png,jpg,jpeg}',
-                    dest: '<%= appConfig.dist %>/images'
+                    dest: '<%= appConfig.distDirectory %>/images'
                 }]
             }
         },
         cssmin: {
             dist: {
                 files: {
-                    '<%= appConfig.dist %>/styles/app.css': [
+                    '<%= appConfig.distDirectory %>/styles/app.css': [
                         '.tmp/styles/{,*/}*.css',
-                        '<%= appConfig.app %>/styles/{,*/}*.css'
+                        '<%= appConfig.appDirectory %>/styles/{,*/}*.css'
                     ]
                 }
             }
@@ -258,9 +261,9 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: '<%= appConfig.app %>',
+                    cwd: '<%= appConfig.appDirectory %>',
                     src: 'index.html',
-                    dest: '<%= appConfig.dist %>'
+                    dest: '<%= appConfig.distDirectory %>'
                 }]
             }
         },
@@ -270,8 +273,8 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         dot: true,
-                        cwd: '<%= appConfig.app %>',
-                        dest: '<%= appConfig.dist %>',
+                        cwd: '<%= appConfig.appDirectory %>',
+                        dest: '<%= appConfig.distDirectory %>',
                         src: [
                             'images/{,*/}*.{webp,gif}',
                             'styles/fonts/{,*/}*.*',
@@ -282,7 +285,7 @@ module.exports = function (grunt) {
                         expand: true,
                         dot: true,
                         cwd: '',
-                        dest: '<%= appConfig.dist %>/app/bower_components',
+                        dest: '<%= appConfig.distDirectory %>/tools/lib',
                         flatten: true,
                         src: [
                             '<%= appConfig.bower.directory %>/requirejs/require.js',
@@ -295,15 +298,15 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     dot: true,
-                    cwd: '<%= appConfig.dist %>',
-                    dest: '<%= appConfig.deployDir %>',
+                    cwd: '<%= appConfig.distDirectory %>',
+                    dest: '<%= appConfig.deployDirectory %>',
                     src: '<%= appConfig.deploy.src %>'
                 }]
             }
         },
         bower: {
             all: {
-                rjsConfig: '<%= appConfig.app %>/scripts/main.js'
+                rjsConfig: '<%= appConfig.appDirectory %>/scripts/main.js'
             }
         },
         jst: {
@@ -312,7 +315,7 @@ module.exports = function (grunt) {
             },
             compile: {
                 files: {
-                    '.tmp/scripts/templates.js': ['<%= appConfig.app %>/scripts/templates/{,*/}*.ejs']
+                    '.tmp/scripts/templates.js': ['<%= appConfig.appDirectory %>/scripts/templates/{,*/}*.ejs']
                 }
             }
         },
@@ -323,7 +326,7 @@ module.exports = function (grunt) {
                     post: 22,
                     authKey: 'adultswimstaging'
                 },
-                src: '<%= appConfig.deployDir %>',
+                src: '<%= appConfig.deployDirectory %>',
                 dest: '<%= appConfig.staging.path %>',
                 server_sep: '/'
             },
@@ -333,7 +336,7 @@ module.exports = function (grunt) {
                     post: 22,
                     authKey: 'adultswimproduction'
                 },
-                src: '<%= appConfig.deployDir %>',
+                src: '<%= appConfig.deployDirectory %>',
                 dest: '',
                 server_sep: '/'
             }
@@ -345,7 +348,7 @@ module.exports = function (grunt) {
                     post: 22,
                     authKey: 'adultswimdev'
                 },
-                src: '<%= appConfig.deployDir %>',
+                src: '<%= appConfig.deployDirectory %>',
                 dest: '<%= appConfig.dev.path %>',
                 server_sep: '/'
             }
@@ -378,7 +381,7 @@ module.exports = function (grunt) {
             },
 
             dist: {
-                src: '<%= appConfig.dist %>/{,**/}*.css'
+                src: '<%= appConfig.distDirectory %>/{,**/}*.css'
             }
         }
     });
@@ -457,6 +460,7 @@ module.exports = function (grunt) {
         grunt.task.run([
             'clean:server',
             'createDefaultTemplate',
+            'copy:server',
             'jst',
             'configureProxies:server',
             'connect:livereload',
