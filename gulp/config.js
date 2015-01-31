@@ -4,11 +4,24 @@ var app = './app';
 var url = require('url');
 var proxy = require('proxy-middleware');
 
-var ftpConfig = require('./.ftppass');
+// var ftpConfig = require('./.ftppass');
+var ftpConfig = {
+    "adultswimdev": {
+        "username": "adultswimdev",
+        "password": "yawodoyt.ed4"
+    },
+    "adultswimstaging": {
+        "username": "adultswimstaging",
+        "keyLocation": "/Users/Leeeeeeeroooooy/.ssh/adultswimstaging"
+    },
+    "adultswimproduction": {
+        "username": "adultswimproduction",
+        "keyLocation": "/Users/Leeeeeeeroooooy/.ssh/adultswimproduction"
+    }
+};
 
-// var proxyOptions = url.parse('http://www.adultswim.com/videos');
-// proxyOptions.route = '/videos';
-var proxyOptions = null;
+var proxyOptions = url.parse('http://www.adultswim.com/_default');
+proxyOptions.route = '/_default';
 
 module.exports = {
     browserSync: {
