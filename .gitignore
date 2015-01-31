@@ -8,3 +8,5 @@ app/bower_components
 .ftppass
 test/bower_components/
 test
+_build
+npm-debug.log
