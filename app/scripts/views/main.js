@@ -21,6 +21,6 @@ module.exports = Backbone.View.extend({
     render: function() {
         this.$el.html(this.template());
 
-        this._defaultView = new _defaultView({ model: new _defaultModel}() }).render();
+        this._defaultView = new _defaultView({ model: new _defaultModel() }).render();
     }
 });
