@@ -1,6 +1,5 @@
 var Backbone = require('backbone');
 var $ = require('jquery');
-Backbone.$ = $;
 
 var _ = require('lodash');
 var key = require('keymaster');
@@ -15,21 +14,23 @@ module.exports = Backbone.View.extend({
     initialize: function() {
         var self = this;
 
-        // this.listenTo(this.model, 'change:{attr}', this.render); 
+        this.listenTo(this.model, 'change:_default', this.render); 
 
-        // _.bindAll(this, '{FUNCTION}', '{FUNCTION}');
+        _.bindAll(this, '_default');
 
-        // key('enter', 'app', _.bind(this.{FUNCTION}, this));
+        key('enter', 'app', _.bind(this._default, this));
+
     },
 
     render: function() {
         console.log(this.model.toJSON());
+
         this.$el.html(this.template(this.model.toJSON()));
 
         return this;
     },
 
-    // {FUNCTION}: function () {
+    _default: function () {
        
-    // }
+    }
 });
