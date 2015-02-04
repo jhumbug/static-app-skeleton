@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:vgtf/adult-swim-live-utilities.git"
+    "url": "git@github.com:jhumbug/static-app-skeleton.git"
   },
   "author": "Justin Gardner",
   "license": "ISC",
