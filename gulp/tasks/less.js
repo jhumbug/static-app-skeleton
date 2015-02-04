@@ -11,7 +11,11 @@ gulp.task('less', function () {
     .pipe(sourcemaps.init())
     .pipe(less(config.settings))
     .on('error', handleErrors)
-    .pipe(sourcemaps.write())
+    .pipe(sourcemaps.write({
+    	sourceRoot: function(file) { // set this when use less that's outside of the app directory (in node_modules, etc)
+	        return './';
+	    }
+	}))
     .pipe(autoprefixer({ browsers: ['last 2 version'] }))
     .pipe(gulp.dest(config.dest))
     .pipe(browserSync.reload({stream:true}));

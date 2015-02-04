@@ -1,24 +1,11 @@
 var dest = "./_build";
 var app = './app';
+var node_modules = './node_modules';
 
 var url = require('url');
 var proxy = require('proxy-middleware');
 
-// var ftpConfig = require('./.ftppass');
-var ftpConfig = {
-    "adultswimdev": {
-        "username": "adultswimdev",
-        "password": "yawodoyt.ed4"
-    },
-    "adultswimstaging": {
-        "username": "adultswimstaging",
-        "keyLocation": "/Users/Leeeeeeeroooooy/.ssh/adultswimstaging"
-    },
-    "adultswimproduction": {
-        "username": "adultswimproduction",
-        "keyLocation": "/Users/Leeeeeeeroooooy/.ssh/adultswimproduction"
-    }
-};
+var ftpConfig = require('./.ftppass');
 
 var proxyOptions = url.parse('http://www.adultswim.com/_default');
 proxyOptions.route = '/_default';
@@ -37,7 +24,8 @@ module.exports = {
         dest: dest + "/css/",
         settings: {
             paths: [
-                app + '/styles/'
+                app + '/styles/',
+                node_modules + '/'
             ]
         }
     },
@@ -46,7 +34,10 @@ module.exports = {
         dest: dest + "/images"
     },
     fonts: {
-        src: app + "/fonts/**",
+        src: [
+            app + "/fonts/**",
+            node_modules + '/font-awesome/fonts/**'
+        ],
         dest: dest + "/fonts"
     },
     markup: {
@@ -57,21 +48,14 @@ module.exports = {
         // A separate bundle will be generated for each
         // bundle config in the list below
         bundleConfigs: [{
-                entries: app + '/scripts/app.js',
-                dest: dest,
-                outputName: 'js/app.js',
-                // Additional file extentions to make optional
-                extensions: ['.ejs'],
-                // list of modules to make require-able externally
-                require: ['jquery', 'lodash', 'keymaster']
-            }]
-            // , {
-            //   entries: app + '/javascript/page.js',
-            //   dest: dest,
-            //   outputName: 'page.js',
-            //   // list of externally available modules to exclude from the bundle
-            //   external: ['jquery', 'underscore']
-            // }]
+            entries: app + '/scripts/app.js',
+            dest: dest,
+            outputName: 'js/app.js',
+            // Additional file extentions to make optional
+            extensions: ['.ejs'],
+            // list of modules to make require-able externally
+            require: ['jquery', 'lodash', 'keymaster']
+        }]
     },
     production: {
         cssSrc: dest + '/css/*.css',
