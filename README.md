@@ -4,3 +4,5 @@ Deploys using ftp or sftp
 Has keymaster and font awesome
 
 To add:
+Add moment
+Explain replacing _default in instructions
