@@ -12,6 +12,9 @@
   },
   "author": "Justin Gardner",
   "license": "ISC",
+  "browser": {
+    "jquery": "./node_modules/jquery/dist/jquery.js"
+  },
   "browserify": {
     "transform": [
       "browserify-shim",
@@ -33,11 +36,8 @@
     ]
   },
   "browserify-shim": {
-    "plugin": {
-      "exports": "plugin",
-      "depends": [
-        "jquery:$"
-      ]
+    "jquery": {
+      "exports": "$"
     }
   },
   "devDependencies": {
