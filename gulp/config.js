@@ -66,21 +66,21 @@ module.exports = {
     deploy: {
         src: dest + '/**',
         dev: {
-            host: ftpConfig.adultswimdev.host,
-            user: ftpConfig.adultswimdev.username,
-            pass: ftpConfig.adultswimdev.password,
+            host: ftpConfig.dev.host,
+            user: ftpConfig.dev.username,
+            pass: ftpConfig.dev.password,
             remotePath: '/dev/site'
         },
         staging: {
-            host: ftpConfig.adultswimstaging.host,
-            user: ftpConfig.adultswimstaging.username,
-            key: ftpConfig.adultswimstaging.keyLocation,
+            host: ftpConfig.staging.host,
+            user: ftpConfig.staging.username,
+            key: ftpConfig.staging.keyLocation,
             remotePath: '/dev/site'
         },
         production: {
-            host: ftpConfig.adultswimproduction.host,
-            user: ftpConfig.adultswimproduction.username,
-            key: ftpConfig.adultswimproduction.keyLocation,
+            host: ftpConfig.production.host,
+            user: ftpConfig.production.username,
+            key: ftpConfig.production.keyLocation,
             remotePath: '/dev/site'
         }
     }
