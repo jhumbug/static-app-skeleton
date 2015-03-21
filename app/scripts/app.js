@@ -1,4 +1,4 @@
-var View = require('./views/main');
+var View = require('./views/content');
 
 view = new View();
 
