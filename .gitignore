@@ -1,12 +1,9 @@
 node_modules
-dist
-test/temp
-.sass-cache
-app/bower_components
-.tmp
-.deploy
+bower_components
+.build
 .ftppass
+npm-debug.log
+
+test/temp
 test/bower_components/
 test
-_build
-npm-debug.log

@@ -1,6 +1,7 @@
-var dest = "./_build";
+var dest = "./.build";
 var app = './app';
 var node_modules = './node_modules';
+var bower_components = './bower_components';
 
 var url = require('url');
 var proxy = require('proxy-middleware');
@@ -16,16 +17,18 @@ module.exports = {
             middleware: [proxy(proxyOptions)],
             // Serve up our build folder
             baseDir: dest
-        }
+        },
+        port: 8080
     },
     less: {
         src: app + "/styles/app.less",
-        watchSrc: app + "/styles/*.less",
+        watchSrc: app + "/styles/**/*.less",
         dest: dest + "/css/",
         settings: {
             paths: [
                 app + '/styles/',
-                node_modules + '/'
+                node_modules + '/',
+                bower_components + '/'
             ]
         }
     },
@@ -36,7 +39,7 @@ module.exports = {
     fonts: {
         src: [
             app + "/fonts/**",
-            node_modules + '/font-awesome/fonts/**'
+            node_modules + '/font-awesome/fonts/**' //add paths to other libraries if you add them
         ],
         dest: dest + "/fonts"
     },
@@ -54,10 +57,10 @@ module.exports = {
             // Additional file extentions to make optional
             extensions: ['.ejs'],
             // list of modules to make require-able externally
-            require: ['jquery', 'lodash', 'keymaster']
+            // require: ['jquery', 'lodash', 'keymaster']
         }]
     },
-    production: {
+    minify: {
         cssSrc: dest + '/css/*.css',
         jsSrc: dest + '/js/*.js',
         cssDest: dest + '/css/',
