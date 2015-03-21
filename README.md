@@ -35,6 +35,8 @@ Okay, you're not really done.  There's some setup to do before gulp will let you
 
 ## More Gulp Commands
 
+`gulp watch` starts watching your project for changes so it can compile and show your changes in a browser right away.
+
 `gulp dev` compiles everything and deploys to your dev site defined in .ftppass
 
 `gulp staging` compiles everything and deploys to your staging site defined in .ftppass
