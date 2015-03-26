@@ -8,7 +8,7 @@ $._default = require('../lib/_default');
 
 module.exports = Backbone.View.extend({
 	el: "#_default",
-
+    
 	template: require('../templates/_default'),
 
     initialize: function() {

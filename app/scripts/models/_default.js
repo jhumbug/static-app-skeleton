@@ -2,7 +2,7 @@ var Backbone = require('backbone');
 
 module.exports = Backbone.Model.extend({
     defaults: {
-        _default: 'WHOA'
+        _default: 'HOLY CRAP'
     },
 
     initialize: function() {
